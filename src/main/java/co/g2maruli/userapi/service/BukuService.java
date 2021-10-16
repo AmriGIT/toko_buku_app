@@ -23,6 +23,16 @@ public class BukuService {
         return bukuList;
     }
 
+    public Buku findById(Integer id){
+        return bukuRepository.findById(id).get();
+    }
+
+    public void deleteById( Integer id){
+        bukuRepository.deleteById(id);
+    }
+
+
+
     public void registerBuku(Buku bukuDto){
         Buku buku = new Buku();
         buku.setJudul(bukuDto.getJudul());
@@ -30,5 +40,21 @@ public class BukuService {
         buku.setStock(bukuDto.getStock());
         bukuRepository.save(buku);
     }
+
+    public void updateBuku(Buku bukuDto, Integer id){
+        Buku buku = bukuRepository.findById(id).get();
+        buku.setJudul(bukuDto.getJudul());
+        buku.setPenerbit(bukuDto.getPenerbit());
+        buku.setStock(bukuDto.getStock());
+        bukuRepository.save(buku);
+    }
+
+    public void updateStock(Integer id,Integer stock){
+        Buku buku = bukuRepository.findById(id).get();
+        buku.setStock(stock);
+        bukuRepository.save(buku);
+    }
+
+
 
 }

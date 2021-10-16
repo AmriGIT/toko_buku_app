@@ -1,4 +1,4 @@
-package co.g2maruli.userapi.model;
+package co.g2maruli.userapi.dto;
 
 import lombok.Data;
 

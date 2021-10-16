@@ -69,19 +69,27 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-<!--            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <attachClasses>true</attachClasses>
-                    <webXml>target/web.xml</webXml>
-                    <webResources>
-                        <resource>
-                            <directory>src/main/webapp</directory>
-                            <filtering>true</filtering>
-                        </resource>
-                    </webResources>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
-            </plugin>-->
+            </plugin>
+            <!--            <plugin>
+                            <artifactId>maven-war-plugin</artifactId>
+                            <configuration>
+                                <attachClasses>true</attachClasses>
+                                <webXml>target/web.xml</webXml>
+                                <webResources>
+                                    <resource>
+                                        <directory>src/main/webapp</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                </webResources>
+                            </configuration>
+                        </plugin>-->
 
         </plugins>
     </build>

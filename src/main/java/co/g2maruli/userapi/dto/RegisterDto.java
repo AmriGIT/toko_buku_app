@@ -1,9 +1,9 @@
-package co.g2maruli.userapi.model;
+package co.g2maruli.userapi.dto;
 
 import lombok.Data;
 
 @Data
-public class Register {
+public class RegisterDto {
     private String username;
     private String password;
 

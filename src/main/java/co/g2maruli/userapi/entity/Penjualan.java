@@ -18,9 +18,8 @@ public class Penjualan implements Serializable {
     @Column(name = "tanggal",nullable = false)
     private Date date;
 
-    @ManyToOne
-    @JoinColumn(name="customer_id",nullable = false)
-    private Customer customer;
+    @Column(name="nama_customer",nullable = false)
+    private String namaCustomer;
 
     @OneToMany(mappedBy = "penjualan",cascade = CascadeType.ALL)
     private List<ItemPenjualan> itemPenjualanList;

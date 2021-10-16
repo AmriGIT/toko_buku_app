@@ -1,7 +1,7 @@
 package co.g2maruli.userapi.controller;
 
 import co.g2maruli.userapi.entity.User;
-import co.g2maruli.userapi.model.Register;
+import co.g2maruli.userapi.dto.RegisterDto;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -30,7 +30,7 @@ public class UserController {
     private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
     
     @PostMapping("/register")
-    public ResponseEntity<User> register (@RequestBody Register register){
+    public ResponseEntity<User> register (@RequestBody RegisterDto register){
 
         User user = new User();
         user.setUsername(register.getUsername());

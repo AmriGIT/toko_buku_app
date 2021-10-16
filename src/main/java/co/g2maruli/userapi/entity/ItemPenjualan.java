@@ -22,6 +22,9 @@ public class ItemPenjualan {
     @Column(name="quantity")
     private Integer quantity;
 
+    @Column(name = "total_harga")
+    private Integer totalHarga;
+
     @ManyToOne
     @JoinColumn(name = "penjualan_id")
     private Penjualan penjualan;

@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PenjualanRepository extends JpaRepository<Penjualan,Integer> {
 
+    public Penjualan getPenjualanByNamaCustomer(String namaCustomer);
+
 }
