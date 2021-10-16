@@ -6,6 +6,7 @@ import { Header, Navbar, Content } from "./template";
 // import "./App.css"
 import { BrowserRouter as Router } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { connect } from "react-redux";
 
 class App extends Component {
   constructor(props) {
@@ -15,7 +16,34 @@ class App extends Component {
       setStatus: false,
     };
   }
-
+componentDidMount(){
+  const token = localStorage.getItem("token")
+  if (token) {
+    fetch("http://localhost:8181/list-buku", {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    })
+      .then(async resp => {
+        const data = await resp.json()
+        const { token } = data
+        if (!token==={}) {
+          this.props.loginHandler(token)
+        } else {
+          alert("Login Ulang")
+          localStorage.removeItem('token')
+        }
+      })
+      .catch(err => {
+        console.warn(err)
+        alert("Internal Server Error!")
+        localStorage.removeItem('token')
+      })
+  }
+}
   render() {
     console.log("AppJS", this.state.setStatus);
     return (
@@ -33,5 +61,8 @@ class App extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => ({
+  loginHandler: token => dispatch({ type: "LOGIN_OK", payload: token })
+})
 
-export default App;
+export default connect(null, mapDispatchToProps)(App);

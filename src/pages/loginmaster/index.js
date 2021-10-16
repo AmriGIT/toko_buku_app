@@ -29,9 +29,9 @@ class LoginMaster extends Component {
       [e.target.name]: e.target.value,
     });
   };
-  buttonLogin() {
+  buttonLogin=()=> {
     const { username, password } = this.state;
-    const url = "https://gist.githubusercontent.com/reberhardt/1424783/raw/64449c53538b4dc016601aed0154f38e8de53f59/dluser.json";
+    const url = "http://localhost:8181/api/authenticate";
     const headers = {
       Accept: "application/json, text/plain",
       "Content-Type": "application/json",
@@ -43,17 +43,15 @@ class LoginMaster extends Component {
     })
       .then(async (respone) => {
         const data = await respone.json();
-        const {token } = data;
+        const {token} = data;
 
         console.log("token ", data);
         if (token) {
           localStorage.setItem("token", token); // for persistent login
           this.props.loginHandler(token);
-          this.setState({isLogin : true})
-          // this.props.statuslog(true)
           
         } else {
-          alert("Username & Password Invalid");
+          alert("gagal");
         }
       })
       .catch((err) => {
@@ -77,7 +75,7 @@ class LoginMaster extends Component {
                   {this.props.statusLogin ? (
                     <>
                       <Alert variant="success">Success</Alert>{" "}
-                      <Redirect to="/profil" />
+                      <Redirect to="/product" />
                     </>
                   ) : (
                     ""
@@ -105,12 +103,12 @@ class LoginMaster extends Component {
                     <Form.Check type="checkbox" label="Check me out" />
                   </Form.Group>
                   <Button
-                    onClick={() => this.buttonLogin(true)}
+                    onClick={this.buttonLogin}
                     // onClick={this.props.loginHandler}
                     variant="primary"
                     type="button"
                   >
-                    Login
+                    Log In
                   </Button>
                 </Form>
               </Card.Body>
@@ -125,14 +123,14 @@ class LoginMaster extends Component {
 
 const mapStateToProps = (state) => ({
   statusLogin: state.statusLogin,
+  token : state.token
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loginHandler: (token) =>
+  loginHandler: token =>
     dispatch({
       type: "LOGIN_OK",
       payload: token,
-      statusLogin : true
     }),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(LoginMaster);

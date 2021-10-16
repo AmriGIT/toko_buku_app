@@ -15,8 +15,8 @@ class Content extends Component {
       currentCount: 0,
       data2: [],
       isLogin: false,
-      username :null,
-      password : null
+      username: null,
+      password: null,
     };
   }
   statusLogin = (status) => {
@@ -31,13 +31,12 @@ class Content extends Component {
       data: newData,
     });
     // this.props.goToPage("contact");
-
   };
-  
+
   editButton = (newUser) => {
     // data unique => findIndex
     const { selectedUser, data: oldData } = this.state;
-    
+
     oldData.splice(selectedUser, 1, newUser);
     this.setState({
       data: oldData,
@@ -45,47 +44,28 @@ class Content extends Component {
     });
     this.props.goToPage("contact");
   };
-  
+
   updateSelectedUser = (idx) => {
     this.setState({
       selectedUser: idx,
     });
     this.props.goToPage("login");
   };
-  halamaneparkir = (e) => {
-    this.props.goToPage("cls");
+  result = () => {
+    const { harga, currentCount, cekin } = this.state;
+    const data2 = [harga, currentCount, cekin];
     this.setState({
-      cekin: e,
+      data2: data2,
     });
+    console.log(data2);
   };
-  cekout = (newParkir) => {
-    console.log(newParkir);
-    this.setState(
-      {
-        harga: newParkir.harga,
-        currentCount: newParkir.currentCount,
-      },
-      this.result
-      );
-      this.props.goToPage("eparkir");
-      return newParkir;
-    };
-    result = () => {
-      const { harga, currentCount, cekin } = this.state;
-      const data2 = [harga, currentCount, cekin];
-      this.setState({
-        data2: data2,
-      });
-      console.log(data2);
-    };
-    // componentDidMount =()=>{
-    // }
-    
-    componentDidMount() {
-      this.setState({
-        isLogin : this.props.sts2
-      })
-      // fetch API terus update state
+
+
+  componentDidMount() {
+    this.setState({
+      isLogin: this.props.sts2,
+    });
+    // fetch API terus update state
     // const url = "http://localhost:8080/api/authenticate"
     // var headers = {}
     // fetch(url,{
@@ -101,36 +81,16 @@ class Content extends Component {
     //         }))
     //     })
     // })
-    const datauser = [
-      {
-        username: "Admin",
-        password: "1234",
-        address: "Jakarta",
-      },
-      {
-        username: "User",
-        password: "1234",
-        address: "Bogor",
-      },
-      {
-        username: "Operator",
-        password: "1234",
-        address: "Depok",
-      },
-    ];
-    this.setState({
-      data: datauser,
-    });
   }
   // updateLogin = () => this.setState({ isLogin: this.props.sts2 });
   render() {
-    
-      console.log(this.state.data)
-    console.log("Conten",this.props.statusLogin2);
+    console.log(this.state.data);
+    console.log("Conten", this.props.statusLogin2);
     return (
       <Switch>
         <Route path="/" exact component={Home} />
-          <Route
+        {this.props.isLogin ? (
+        <Route
           path="/login-master"
           children={(props) => (
             <LoginMaster
@@ -140,7 +100,10 @@ class Content extends Component {
             />
           )}
         />
-                  <Route
+        ):(
+          ""
+        )}
+        <Route
           path="/product"
           children={(props) => (
             <Product
@@ -158,4 +121,4 @@ class Content extends Component {
 const mapStateToProps = (state) => ({
   statusLogin2: state.statusLogin,
 });
-export default connect(mapStateToProps) (Content);
+export default connect(mapStateToProps)(Content);

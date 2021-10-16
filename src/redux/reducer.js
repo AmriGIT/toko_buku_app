@@ -1,6 +1,8 @@
 const defaultState = {
     statusLogin : false,
-    token : ""
+    token : "",
+    product : [],
+    carts :[],
   }
   const reducer =(state = defaultState, action)=>{
     console.log("state", state);
@@ -11,6 +13,7 @@ const defaultState = {
         return{
           statusLogin : true,
           token : action.payload,
+          product : action.product
         }
         
       default:

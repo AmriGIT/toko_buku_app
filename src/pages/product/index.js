@@ -1,27 +1,16 @@
 // import Button from "@restart/ui/esm/Button";
 import React, { Component } from "react";
 import {
-  Form,
-  Button,
-  Container,
   Row,
-  Card,
-  Col,
-  Alert,
+  Col
 } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Redirect } from "react-router";
+import CartItem from "../../components/CartItem";
 
 class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: "",
-      isLogin: false,
-      show: "",
-      setShow: false,
-      data: [],
     };
   }
   setValue = (e) => {
@@ -60,19 +49,20 @@ class Product extends Component {
       });
   }
 
-  renderList = () => {
-    console.log(this.state.data);
-    const list = this.props.users.map((user, idx) => {
+  renderListProduct = () => {
+    const list = this.props.product.map((products, idx) => {
       return (
         <tr key={idx}>
           <th scope="raw">{idx + 1}</th>
-          <td>{user.username}</td>
-          <td>{user.address.city}</td>
+          <td>{products.judul}</td>
+          <td>{products.penerbit}</td>
+          <td>{products.stock}</td>
           <td>
-            <button onClick={() => this.props.setUser(idx)}>Update</button>
+          <button type="button" class="btn btn-outline-primary" onClick>Update</button>
+
           </td>
           <td>
-            <button onClick={() => this.deleteUser(idx)}>Delete</button>
+          <button type="button" class="btn btn-outline-primary" onClick>Delete</button>
           </td>
         </tr>
       );
@@ -80,34 +70,45 @@ class Product extends Component {
     return list;
   };
   render() {
+    const carts = this.props.carts
     console.log("Login", this.props.statusLogin);
     return (
-      <Container style={{ paddingTop: "15px" }}>
-        <Row>
+
+        <Row style={{
+          paddingTop :"-15"
+        }}>
           <Col sm={8}>
             <table class="table table-hover">
               <thead>
                 <tr>
                   <th scope="col">No</th>
-                  <th scope="col">Item</th>
-                  <th scope="col">Item</th>
+                  <th scope="col">Judul</th>
+                  <th scope="col">Penerbit</th>
+                  <th scope="col">Stock</th>
                   <th scope="col" colSpan="2" style={{textAlign :"center"}}>Action</th>
                 </tr>
               </thead>
               <tbody>
-              {this.renderList()}
+              {this.renderListProduct()}
               </tbody>
             </table>
           </Col>
-          <Col sm={4}>Price</Col>
+          <Col height style={{background :"#ffc107"}} sm={4}>
+          <p>{carts ? `${carts.length} item in cart` : `0 item in cart`}</p>
+          {carts.map(item => 
+            <CartItem key={item.id} item={item}/>
+          )}
+          </Col>
         </Row>
-      </Container>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
   statusLogin: state.statusLogin,
+  token : state.token,
+  product : state.product,
+  carts : state.carts
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -120,9 +121,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Product);
 
-/**
- * LOGIN -->  User
- *                List Tabel Buku Order
- *                Order Buku
- *                Chekcout
- */
