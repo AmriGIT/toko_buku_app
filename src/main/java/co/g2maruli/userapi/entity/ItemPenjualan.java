@@ -13,8 +13,11 @@ public class ItemPenjualan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="nama")
-    private String nama;
+    @Column(name="judul_buku")
+    private String judulBuku;
+
+    @Column(name = "nama_pembeli")
+    private String namaPembeli;
 
     @Column(name = "harga")
     private Integer harga;

@@ -46,20 +46,21 @@ public class PenjualanService {
         Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
 
         Penjualan penjualan = new Penjualan();
+        penjualan.setDate(date);
 
         ItemPenjualan itemPenjualan = new ItemPenjualan();
         for(int i=0; i<item.size(); i++){
-            itemPenjualan.setNama(item.get(i).getNama());
+            itemPenjualan.setJudulBuku(item.get(i).getJudulBuku());
+            itemPenjualan.setNamaPembeli(item.get(i).getNamaPembeli());
             itemPenjualan.setHarga(item.get(i).getHarga());
-            itemPenjualan.setPenjualan(penjualan);
             itemPenjualan.setQuantity(item.get(i).getQuantity());
+            itemPenjualan.setTotalHarga(item.get(i).getHarga()*item.get(i).getQuantity());
+            itemPenjualan.setPenjualan(penjualan);
+            itemPenjualanRepository.save(itemPenjualan);
         }
+        penjualanRepository.save(penjualan);
 
     }
 
-    public void updatePenjualan(Integer id,Penjualan penjualanDto) {
-        Penjualan penjualan = penjualanRepository.findById(id).get();
-        penjualanRepository.save(penjualanDto);
-    }
 
 }
