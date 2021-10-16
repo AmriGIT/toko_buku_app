@@ -1,8 +1,10 @@
 package co.g2maruli.userapi.service;
 
 import co.g2maruli.userapi.dto.PenjualanDto;
+import co.g2maruli.userapi.entity.Buku;
 import co.g2maruli.userapi.entity.ItemPenjualan;
 import co.g2maruli.userapi.entity.Penjualan;
+import co.g2maruli.userapi.repository.BukuRepository;
 import co.g2maruli.userapi.repository.ItemPenjualanRepository;
 import co.g2maruli.userapi.repository.PenjualanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +26,9 @@ public class PenjualanService {
 
     @Autowired
     ItemPenjualanRepository itemPenjualanRepository;
+
+    @Autowired
+    BukuRepository bukuRepository;
 
 
     public List<Penjualan> showPenjualan(){
@@ -39,7 +45,7 @@ public class PenjualanService {
         penjualanRepository.delete(penjualanRepository.findById(id).get());
     }
 
-    public void catatPenjualan(List <ItemPenjualan> item){
+    public Penjualan catatPenjualan(List <PenjualanDto> item){
 
         ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate localDate = LocalDate.now();
@@ -48,19 +54,31 @@ public class PenjualanService {
         Penjualan penjualan = new Penjualan();
         penjualan.setDate(date);
 
+        List<Integer> harga = new ArrayList<>();
+        List<ItemPenjualan> ip = new ArrayList<>();
+        Buku buku;
         ItemPenjualan itemPenjualan = new ItemPenjualan();
         for(int i=0; i<item.size(); i++){
-            itemPenjualan.setJudulBuku(item.get(i).getJudulBuku());
+
+            buku = bukuRepository.getBukuByJudul(item.get(i).getJudul());
+            itemPenjualan.setBuku(buku);
             itemPenjualan.setNamaPembeli(item.get(i).getNamaPembeli());
-            itemPenjualan.setHarga(item.get(i).getHarga());
+            itemPenjualan.setHarga(buku.getHarga());
             itemPenjualan.setQuantity(item.get(i).getQuantity());
-            itemPenjualan.setTotalHarga(item.get(i).getHarga()*item.get(i).getQuantity());
-            itemPenjualan.setPenjualan(penjualan);
-            itemPenjualanRepository.save(itemPenjualan);
+            itemPenjualan.setTotalHarga(buku.getHarga()*item.get(i).getQuantity());
+            buku.setStock(buku.getStock()-item.get(i).getQuantity());
+            harga.add(buku.getHarga());
+            ip.add(itemPenjualan);
         }
+        for( ItemPenjualan ips : ip){
+            itemPenjualanRepository.save(ips);
+        }
+
+        Integer sum = harga.stream().collect(Collectors.summingInt(Integer::intValue));
+        penjualan.setTotalBelanjaan(sum);
+
         penjualanRepository.save(penjualan);
 
+        return penjualan;
     }
-
-
 }

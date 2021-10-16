@@ -13,8 +13,9 @@ public class ItemPenjualan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="judul_buku")
-    private String judulBuku;
+    @ManyToOne
+    @JoinColumn(name="buku_id")
+    private Buku buku;
 
     @Column(name = "nama_pembeli")
     private String namaPembeli;

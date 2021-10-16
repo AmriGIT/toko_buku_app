@@ -2,6 +2,7 @@ package co.g2maruli.userapi.controller;
 
 import co.g2maruli.userapi.dto.BasicResponse;
 import co.g2maruli.userapi.dto.PenjualanDto;
+import co.g2maruli.userapi.entity.ItemPenjualan;
 import co.g2maruli.userapi.entity.Penjualan;
 import co.g2maruli.userapi.service.PenjualanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,10 @@ public class PenjualanController {
         return ResponseEntity.ok(penjualanService.findPenjualanById(id));
     }
 
-//    @PostMapping("/penjualan")
-//    public ResponseEntity<BasicResponse> createPenjualan(@RequestBody PenjualanDto penjualanDto){
-//        Penjualan penjualan = new Penjualan();
-//
-//    }
+    @PostMapping("/penjualan")
+    public ResponseEntity<Penjualan> createPenjualan(@RequestBody List<PenjualanDto> itemPenjualans){
+        Penjualan penjualan = penjualanService.catatPenjualan(itemPenjualans);
+        return ResponseEntity.ok(penjualan);
+    }
 
 }

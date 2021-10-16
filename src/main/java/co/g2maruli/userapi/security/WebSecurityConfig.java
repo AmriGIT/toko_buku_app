@@ -58,6 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/register").permitAll()
                 .antMatchers("/api/buku").permitAll()
                 .antMatchers("/api/list-buku").permitAll()
+                .antMatchers("/api/penjualan").permitAll()
+                .antMatchers("/api/penjualans").permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to

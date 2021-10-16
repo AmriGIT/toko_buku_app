@@ -4,7 +4,6 @@ import co.g2maruli.userapi.entity.Buku;
 import co.g2maruli.userapi.repository.BukuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +37,7 @@ public class BukuService {
         buku.setJudul(bukuDto.getJudul());
         buku.setPenerbit(bukuDto.getPenerbit());
         buku.setStock(bukuDto.getStock());
+        buku.setHarga(bukuDto.getHarga());
         bukuRepository.save(buku);
     }
 
@@ -46,6 +46,7 @@ public class BukuService {
         buku.setJudul(bukuDto.getJudul());
         buku.setPenerbit(bukuDto.getPenerbit());
         buku.setStock(bukuDto.getStock());
+        buku.setHarga(bukuDto.getHarga());
         bukuRepository.save(buku);
     }
 
