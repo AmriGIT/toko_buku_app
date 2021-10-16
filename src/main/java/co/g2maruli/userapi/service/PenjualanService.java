@@ -53,6 +53,7 @@ public class PenjualanService {
 
         Penjualan penjualan = new Penjualan();
         penjualan.setDate(date);
+        penjualan.setNamaCustomer(item.get(0).getNamaPembeli());
 
         List<Integer> harga = new ArrayList<>();
         List<ItemPenjualan> ip = new ArrayList<>();
@@ -69,6 +70,7 @@ public class PenjualanService {
             buku.setStock(buku.getStock()-item.get(i).getQuantity());
             harga.add(buku.getHarga());
             ip.add(itemPenjualan);
+            bukuRepository.save(buku);
         }
         for( ItemPenjualan ips : ip){
             itemPenjualanRepository.save(ips);

@@ -24,7 +24,5 @@ public class Penjualan implements Serializable {
     @Column(name="total_belanjaan")
     private Integer totalBelanjaan;
 
-    @OneToMany(mappedBy = "penjualan",cascade = CascadeType.ALL)
-    private List<ItemPenjualan> itemPenjualanList;
 
 }
